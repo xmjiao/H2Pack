@@ -26,7 +26,7 @@ OPENBLAS_INSTALL_DIR = ../../OpenBLAS-git/install
 DEFS    += -DUSE_OPENBLAS
 INCS    += -I$(OPENBLAS_INSTALL_DIR)/include
 LDFLAGS += -L$(OPENBLAS_INSTALL_DIR)/lib
-LIBS    += -lopenblas
+LIBS    += -lopenblas -llapacke
 endif
 
 C_SRCS 	= $(wildcard *.c)
