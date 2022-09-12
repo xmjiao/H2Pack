@@ -6,12 +6,14 @@ CFLAGS  = $(INCS) -Wall -g -std=gnu11 -O3 -fPIC $(DEFS)
 LDFLAGS = -g -O3 -fopenmp
 LIBS    = $(H2PACK_INSTALL_DIR)/lib/libH2Pack.a
 
+CC      = /gpfs/software/gcc/12.1.0/bin/gcc
+
 ifeq ($(shell $(CC) --version 2>&1 | grep -c "icc"), 1)
 CFLAGS  += -fopenmp -xHost
 endif
 
 ifeq ($(shell $(CC) --version 2>&1 | grep -c "gcc"), 1)
-CFLAGS  += -fopenmp -march=native -Wno-unused-result -Wno-unused-function
+CFLAGS  += -fopenmp -march=native -Wno-unused-result -Wno-unused-function -Wno-cpp
 LIBS    += -lgfortran -lm
 endif
 
@@ -22,11 +24,12 @@ LDFLAGS += -mkl
 endif
 
 ifeq ($(strip $(USE_OPENBLAS)), 1)
-OPENBLAS_INSTALL_DIR = ../../OpenBLAS-git/install
+# OPENBLAS_INSTALL_DIR = ../../OpenBLAS-git/install
+OPENBLAS_INSTALL_DIR = /gpfs/software/openBLAS/0.3.21
 DEFS    += -DUSE_OPENBLAS
 INCS    += -I$(OPENBLAS_INSTALL_DIR)/include
 LDFLAGS += -L$(OPENBLAS_INSTALL_DIR)/lib
-LIBS    += -lopenblas -llapacke
+LIBS    += -lopenblas
 endif
 
 C_SRCS 	= $(wildcard *.c)
